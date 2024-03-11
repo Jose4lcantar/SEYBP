@@ -12,6 +12,25 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"
         defer></script>
+
+    <style>
+        /* Estilos personalizados */
+        .card-header.bg-purple {
+            background-color: #6a0dad; /* Morado */
+            color: #fff; /* Texto blanco */
+            border-color: #6a0dad; /* Borde morado */
+        }
+
+        .btn-purple {
+            background-color: #6a0dad; /* Morado */
+            border-color: #6a0dad; /* Borde morado */
+        }
+
+        .btn-purple:hover {
+            background-color: #4e089d; /* Morado oscuro al pasar el mouse */
+            border-color: #4e089d; /* Borde morado oscuro al pasar el mouse */
+        }
+    </style>
 </head>
 
 <body>
@@ -20,7 +39,7 @@
             <div class="col-lg-6">
                 <section>
                     <div class="card">
-                        <div class="card-header bg-primary text-white">
+                        <div class="card-header bg-purple text-white"> <!-- Clase modificada para el encabezado de la tarjeta -->
                             <h1 class="mb-0">CHAT</h1>
                         </div>
                         <div class="card-body">
@@ -40,7 +59,7 @@
                                         <option value="5">¿Qué es el almacenamiento en la nube y cuáles son sus
                                             ventajas?</option>
                                     </select>
-                                    <button class="btn btn-primary" id="enviarMensaje" type="submit">Enviar
+                                    <button class="btn btn-purple" id="enviarMensaje" type="submit">Enviar <!-- Clase modificada para el botón -->
                                         Mensaje</button>
                                 </div>
                             </div>
