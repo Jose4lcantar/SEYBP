@@ -1,27 +1,71 @@
-function socket(io) {
-    io.on("connection", (socket) => {
-        socket.on("pregunta", (pregunta) => {
-            var respuesta = obtenerRespuesta(pregunta);
-            socket.emit("respuesta", respuesta);
-        });
-    });
-}
+const Usuario=require("../modelos/usuario");
+function socket(io){ //IO ES DE INPUT (OUTPUT)
+    io.on("connection", async (socket) => {
 
-function obtenerRespuesta(pregunta) {
-    switch (pregunta) {
-        case "1":
-            return "Hardware: Componentes físicos. Software: Programas y aplicaciones.";
-        case "2":
-            return "IA: Capacidad de las máquinas para tareas inteligentes.";
-        case "3":
-            return "SO: Gestión de recursos, interfaz de usuario, administración de archivos.";
-        case "4":
-            return "Redes sociales: Conexión y comunicación en línea.";
-        case "5":
-            return "Almacenamiento en la nube: Acceso remoto a datos.";
-        default:
-            return "Lo siento, no tengo una respuesta para esa pregunta.";
+    //MOSTRAR USUARIOS
+    
+    mostrarUsuarios();
+
+    async function mostrarUsuarios(){
+        const usuarios=await Usuario.find();
+        io.emit("servidorEnviarUsuarios", usuarios); 
     }
-}
 
-module.exports = socket;
+    //GUARDAR USUARIOS
+
+    socket.on("clienteGuardarUsuario", async (usuario)=>{
+        console.log("Guardar usuario");
+        console.log(usuario);
+        try{
+            await new Usuario(usuario).save();
+            io.emit("ServidorUsuarioRegistrado", "Usuario registrado");
+            mostrarUsuarios();
+            console.log("Usuario guardado");
+        }
+        catch(err){
+            console.log("Error al registrar al usuario"+err);
+        }
+
+    });
+
+     //EDITAR UN USUARIO
+
+     socket.on("clienteEditarUsuario", async (id) => {
+        try {
+            const usuario = await Usuario.findById(id);
+            socket.emit("servidorEnviarDatosUsuario", usuario);
+        } catch (error) {
+            console.log("Error al obtener usuario para edición:", error);
+        }
+    });
+
+    //ACTUALIZAR UN USUARIO
+
+    socket.on("clienteActualizarUsuario", async (datosUsuario) => {
+        const { id, datosActualizar } = datosUsuario;
+        try {
+            const usuarioActualizado = await Usuario.findByIdAndUpdate(id, datosActualizar, { new: true });
+            console.log("Usuario actualizado:", usuarioActualizado);
+            io.emit("ServidorUsuarioActualizado", "Usuario actualizado");
+            mostrarUsuarios(); //VUELVE A MOSTRAR LA LISTA DE USUARIOS DESPUES DE ACTUALIZAR UNO
+        } catch (error) {
+            console.log("Error al actualizar usuario:", error);
+        }
+    });
+
+    //ELIMINAR UN USUARIO
+
+        socket.on("clienteBorrarUsuario", async (id) => {
+            try {
+                await Usuario.findByIdAndDelete(id);
+                console.log("Usuario eliminado:", id);
+                io.emit("ServidorUsuarioBorrado", "Usuario borrado");
+                mostrarUsuarios(); //VUELVE A MOSTRAR LA LISTA DE USUARIOS DESPUES DE ELIMINAR UNO
+            } catch (error) {
+                console.log("Error al borrar usuario:", error);
+            }
+        });
+        
+    }); //FIN IO (ON)
+}
+module.exports=socket;
