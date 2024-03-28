@@ -5,7 +5,7 @@ var mensajeHtml = document.getElementById("mensaje");
 var mensajeHtmlDel = document.getElementById("mensaje2");
 var datos = document.getElementById("datos");
 
-// Mostrar datos de la base de datos en MongoDB
+
 socket.on("ServidorEnviarUsuarios", (usuarios) => {
   var tr = "";
   usuarios.forEach((usuario,idLocal) => {
@@ -28,7 +28,7 @@ socket.on("ServidorEnviarUsuarios", (usuarios) => {
   });
   datos.innerHTML=tr;
 });
-// Guardar datos en la base de datos de MongoDB
+
 enviarData.addEventListener("submit", (e) => {
   e.preventDefault();
   //   Recivir datos
@@ -55,12 +55,12 @@ enviarData.addEventListener("submit", (e) => {
   });
 });
 
-// Modificar datos de un registro en la base de datos de MongoDB
+
 function editarUsuario(id){
   window.location.href = 'editarUsuario.html?id=' + id;
   
 }
-// Eliminar datos de la base de datos de MongoDB
+
 function borrarUsuario(id){
   socket.emit("clienteBorrarUsuario", id);
   socket.on("servidorUsuarioBorrado", (mensaje) => {

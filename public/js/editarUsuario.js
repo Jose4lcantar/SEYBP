@@ -7,11 +7,11 @@ window.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('id');
     if (userId) {
-        // Emitir un evento al servidor para obtener los datos del usuario por su ID
+
         socket.emit("clienteEditarUsuarioId", userId);
     }
 
-    // Escuchar la respuesta del servidor con los datos del usuario y llenar los campos del formulario
+
     socket.on("servidorUsuarioEditadoId", (usuario) => {
         document.getElementById("id").value = usuario._id;
         document.getElementById("nombre").value = usuario.nombre;
@@ -20,10 +20,10 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Editar usuario
+
 envairData.addEventListener("submit", (e) => {
     e.preventDefault();
-    // Recibir datos
+
     var usuario = {
         _id: document.getElementById("id").value,
         nombre: document.getElementById("nombre").value,

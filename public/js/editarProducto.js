@@ -6,12 +6,13 @@ var mensajeHtml = document.getElementById("mensaje");
 window.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('id');
+
     if (productId) {
-        // Emitir un evento al servidor para obtener los datos del producto por su ID
+        
         socket.emit("clienteEditarProducto", productId);
     }
 
-    // Escuchar la respuesta del servidor con los datos del producto y llenar los campos del formulario
+
     socket.on("servidorProductoEditado", (producto) => {
         document.getElementById("id").value = producto._id;
         document.getElementById("nombre").value = producto.nombre;
@@ -20,10 +21,10 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Editar producto
+
 enviarData.addEventListener("submit", (e) => {
     e.preventDefault();
-    // Recibir datos
+
     var producto = {
         _id: document.getElementById("id").value,
         nombre: document.getElementById("nombre").value,

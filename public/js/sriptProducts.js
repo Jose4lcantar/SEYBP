@@ -5,7 +5,7 @@ var mensajeHtml = document.getElementById("mensaje");
 var mensajeHtmlDel = document.getElementById("mensaje2");
 var datos = document.getElementById("datos");
 
-// Mostrar datos de la base de datos en MongoDB
+
 socket.on("ServidorEnviarProductos", (productos) => {
   var tr = "";
   productos.forEach((producto, idLocal) => {
@@ -28,10 +28,10 @@ socket.on("ServidorEnviarProductos", (productos) => {
   });
   datos.innerHTML = tr;
 });
-// Guardar datos en la base de datos de MongoDB
+
 enviarData.addEventListener("submit", (e) => {
   e.preventDefault();
-  //   Recivir datos
+
   var producto = {
     nombre: document.getElementById("nombre").value,
     marca: document.getElementById("marca").value,
@@ -53,11 +53,11 @@ enviarData.addEventListener("submit", (e) => {
   });
 });
 
-// Modificar datos de un registro en la base de datos de MongoDB
+
 function editarproducto(id) {
   window.location.href = 'editarProducto.html?id=' + id;
 }
-// Borrar datos de un registro en la base de datos de MongoDB
+
 
 function borrarproducto(id) {
   socket.emit("clienteBorrarProducto", id);
